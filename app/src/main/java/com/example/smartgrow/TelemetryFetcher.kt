@@ -11,56 +11,39 @@ object TelemetryFetcher {
 
     suspend fun fetchTelemetry(): Map<String, String>? = withContext(Dispatchers.IO) {
         try {
-            // Using the endpoint you provided
-            val urlString = "${BuildConfig.THINGSBOARD_BASE_URL}/api/plugins/telemetry/DEVICE/${BuildConfig.THINGSBOARD_DEVICE_ID}/values/timeseries?limit=1"
-            Log.d("TelemetryFetcher", "Fetching from: $urlString")
+            // Using BuildConfig to keep secrets out of GitHub
+            val baseUrl = "https://thingsboard.cloud"
+            val deviceId = BuildConfig.THINGSBOARD_DEVICE_ID
+            val token = BuildConfig.THINGSBOARD_TOKEN
+
+            val urlString = "$baseUrl/api/plugins/telemetry/DEVICE/$deviceId/values/timeseries?limit=1"
+            Log.d("TelemetryFetcher", "Syncing with Cloud...")
 
             val url = URL(urlString)
             val connection = url.openConnection() as HttpURLConnection
             connection.requestMethod = "GET"
-
-            connection.setRequestProperty(
-                "X-Authorization",
-                "Bearer ${BuildConfig.THINGSBOARD_TOKEN}"
-            )
+            connection.setRequestProperty("X-Authorization", "Bearer $token")
             connection.setRequestProperty("Accept", "application/json")
 
-            val responseCode = connection.responseCode
-            Log.d("TelemetryFetcher", "Response Code: $responseCode")
-
-            if (responseCode == 200) {
+            if (connection.responseCode == 200) {
                 val response = connection.inputStream.bufferedReader().readText()
-                Log.d("TelemetryFetcher", "Success Response: $response")
-
                 val json = JSONObject(response)
                 val result = mutableMapOf<String, String>()
 
-                // Safely loop through the keys
-                val iter = json.keys()
-                while (iter.hasNext()) {
-                    val key = iter.next()
-                    try {
-                        val array = json.getJSONArray(key)
-                        if (array.length() > 0) {
-                            val value = array.getJSONObject(0).get("value").toString()
-                            result[key] = value
-                        }
-                    } catch (e: Exception) {
-                        // Just in case the value isn't an array
-                        result[key] = json.getString(key)
+                val keysIterator = json.keys()
+                while (keysIterator.hasNext()) {
+                    val key = keysIterator.next()
+                    val dataArray = json.getJSONArray(key)
+                    if (dataArray.length() > 0) {
+                        result[key] = dataArray.getJSONObject(0).get("value").toString()
                     }
                 }
-
-                Log.d("TelemetryFetcher", "Parsed Data: $result")
                 return@withContext result
             } else {
-                // If it fails (like a 401 Unauthorized), let's read the error message!
-                val errorResponse = connection.errorStream?.bufferedReader()?.readText()
-                Log.e("TelemetryFetcher", "Error Response: $errorResponse")
+                Log.e("TelemetryFetcher", "Fetch failed: ${connection.responseCode}")
             }
         } catch (e: Exception) {
-            Log.e("TelemetryFetcher", "Crash during fetch: ${e.message}")
-            e.printStackTrace()
+            Log.e("TelemetryFetcher", "Safe Mode Error: ${e.message}")
         }
         return@withContext null
     }

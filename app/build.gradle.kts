@@ -1,6 +1,16 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+}
+
+// 1. Load local.properties safely
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
 }
 
 android {
@@ -16,9 +26,15 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "THINGSBOARD_BASE_URL", "\"https://demo.thingsboard.io\"")
-        buildConfigField("String", "THINGSBOARD_DEVICE_ID", "\"YOUR_DEVICE_ID\"")
-        buildConfigField("String", "THINGSBOARD_TOKEN", "\"YOUR_ACCESS_TOKEN\"")
+        // 2. Pull values from local.properties.
+        // We use a fallback string so the project still compiles even if properties are missing.
+        val baseUrl = localProperties.getProperty("THINGSBOARD_BASE_URL") ?: "https://thingsboard.cloud"
+        val deviceId = localProperties.getProperty("THINGSBOARD_DEVICE_ID") ?: "YOUR_DEVICE_ID"
+        val token = localProperties.getProperty("THINGSBOARD_TOKEN") ?: "YOUR_TOKEN"
+
+        buildConfigField("String", "THINGSBOARD_BASE_URL", "\"$baseUrl\"")
+        buildConfigField("String", "THINGSBOARD_DEVICE_ID", "\"$deviceId\"")
+        buildConfigField("String", "THINGSBOARD_TOKEN", "\"$token\"")
     }
 
     buildTypes {
