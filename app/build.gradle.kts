@@ -26,15 +26,16 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // 2. Pull values from local.properties.
-        // We use a fallback string so the project still compiles even if properties are missing.
+        // 2. Pull values from local.properties for Auto-Login!
         val baseUrl = localProperties.getProperty("THINGSBOARD_BASE_URL") ?: "https://thingsboard.cloud"
         val deviceId = localProperties.getProperty("THINGSBOARD_DEVICE_ID") ?: "YOUR_DEVICE_ID"
-        val token = localProperties.getProperty("THINGSBOARD_TOKEN") ?: "YOUR_TOKEN"
+        val username = localProperties.getProperty("THINGSBOARD_USERNAME") ?: "tenant@thingsboard.org"
+        val password = localProperties.getProperty("THINGSBOARD_PASSWORD") ?: "sysadmin"
 
         buildConfigField("String", "THINGSBOARD_BASE_URL", "\"$baseUrl\"")
         buildConfigField("String", "THINGSBOARD_DEVICE_ID", "\"$deviceId\"")
-        buildConfigField("String", "THINGSBOARD_TOKEN", "\"$token\"")
+        buildConfigField("String", "THINGSBOARD_USERNAME", "\"$username\"")
+        buildConfigField("String", "THINGSBOARD_PASSWORD", "\"$password\"")
     }
 
     buildTypes {
