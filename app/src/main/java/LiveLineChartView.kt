@@ -9,7 +9,7 @@ class LiveLineChartView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private val dataPoints = mutableListOf<Float>()
+    private var dataPoints = listOf<Float>()
     private val maxPoints = 20 // How many points to show on screen at once
 
     var lineColor = Color.parseColor("#2F7F34")
@@ -44,12 +44,9 @@ class LiveLineChartView @JvmOverloads constructor(
         strokeWidth = 2f
     }
 
-    fun addDataPoint(value: Float) {
-        dataPoints.add(value)
-        if (dataPoints.size > maxPoints) {
-            dataPoints.removeAt(0)
-        }
-        invalidate() // Trigger redraw
+    fun setData(points: List<Float>) {
+        this.dataPoints = points
+        invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
