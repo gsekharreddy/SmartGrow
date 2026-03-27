@@ -1,0 +1,50 @@
+{
+  "soil_classes": [
+    "Black",
+    "Clayey",
+    "Loamy",
+    "Red",
+    "Sandy"
+  ],
+  "crop_classes": [
+    "Barley",
+    "Cotton",
+    "Ground Nuts",
+    "Maize",
+    "Millets",
+    "Oil seeds",
+    "Paddy",
+    "Pulses",
+    "Sugarcane",
+    "Tobacco",
+    "Wheat"
+  ],
+  "fertilizer_classes": [
+    "10-26-26",
+    "14-35-14",
+    "17-17-17",
+    "20-20",
+    "28-28",
+    "DAP",
+    "Urea"
+  ],
+  "crop_model_input_order": [
+    "Temperature",
+    "Humidity",
+    "Moisture",
+    "SoilTypeEncoded",
+    "Nitrogen",
+    "Phosphorous",
+    "Potassium"
+  ],
+  "fert_model_input_order": [
+    "Temperature",
+    "Humidity",
+    "Moisture",
+    "SoilTypeEncoded",
+    "Nitrogen",
+    "Phosphorous",
+    "Potassium",
+    "PredictedCropEncoded"
+  ]
+}
