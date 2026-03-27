@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:text="Smart Insights"
+                android:text="AI Farm Insights"
                 android:textColor="#141E15"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -69,6 +69,77 @@
                 android:text="Based on historical soil data and real-time weather patterns from your fields."
                 android:textColor="#888888"
                 android:textSize="14sp" />
+
+            <!-- Telemetry Data Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Live Sensor Data"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="#888888"/>
+
+                    <TextView
+                        android:id="@+id/tvTelemetryData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Fetching data..."
+                        android:textSize="16sp"
+                        android:textColor="#333333"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- AI Prediction Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#55CAFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Machine Learning Recommendation"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="#FFFFFF"/>
+
+                    <TextView
+                        android:id="@+id/tvAiResult"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Analyzing..."
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Original Content preserved and adapted -->
 
             <!-- Crop Advice Card -->
             <com.google.android.material.card.MaterialCardView
